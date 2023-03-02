@@ -24,6 +24,14 @@ public class Card {
         return card;
     }
 
+    public CardNumber getCardNumber() {
+        return number;
+    }
+
+    public CardSuit getSuit() {
+        return suit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

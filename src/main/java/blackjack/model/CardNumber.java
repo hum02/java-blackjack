@@ -17,11 +17,23 @@ public enum CardNumber {
 
     private final String symbol;
     private final int basicScore;
-    private final int specialScore;
+    private final int bigScore;
 
-    CardNumber(String symbol, int basicScore, int specialScore) {
+    CardNumber(String symbol, int basicScore, int bigScore) {
         this.symbol = symbol;
         this.basicScore = basicScore;
-        this.specialScore = specialScore;
+        this.bigScore = bigScore;
+    }
+
+    public int getBasicScore() {
+        return basicScore;
+    }
+
+    public int getBigScore(){
+        return bigScore;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }
