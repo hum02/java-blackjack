@@ -1,4 +1,6 @@
-package blackjack.model;
+package blackjack.model.card;
+
+import blackjack.model.CardScore;
 
 import java.util.ArrayList;
 import java.util.Collections;

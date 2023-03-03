@@ -1,8 +1,7 @@
 package blackjack.model.state;
 
-import blackjack.model.CardScore;
-import blackjack.model.Cards;
-import blackjack.model.OwnedCards;
+import blackjack.model.card.CardDeck;
+import blackjack.model.card.OwnedCards;
 
 public class DealerDrawState extends State {
 
@@ -13,20 +12,20 @@ public class DealerDrawState extends State {
     }
 
     @Override
-    public State draw(Cards cardDeck) {
+    public State draw(CardDeck cardDeck) {
         ownedCards.add(cardDeck.pick());
 
         if (ownedCards.score().smallScore() > BLACKJACK_NUMBER && ownedCards.score().bigScore() > BLACKJACK_NUMBER) {
             return new BustState(ownedCards);
         }
-        if (ownedCards.score().bigScore() <= 16) {
+        if (!isFinished()) {
             return this;
         }
         return new StandState(ownedCards);
     }
 
     @Override
-    public CardScore getScore() {
-        return super.getScore();
+    public boolean isFinished() {
+        return ownedCards.score().bigScore() > 16;
     }
 }

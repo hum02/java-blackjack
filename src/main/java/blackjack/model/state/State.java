@@ -1,9 +1,9 @@
 package blackjack.model.state;
 
-import blackjack.model.Card;
+import blackjack.model.card.Card;
 import blackjack.model.CardScore;
-import blackjack.model.Cards;
-import blackjack.model.OwnedCards;
+import blackjack.model.card.CardDeck;
+import blackjack.model.card.OwnedCards;
 
 import java.util.List;
 
@@ -16,7 +16,9 @@ public abstract class State {
         this.ownedCards = ownedCards;
     }
 
-    public abstract State draw(Cards cardDeck);
+    public abstract State draw(CardDeck cardDeck);
+
+    public abstract boolean isFinished();
 
      public CardScore getScore() {
        return ownedCards.score();

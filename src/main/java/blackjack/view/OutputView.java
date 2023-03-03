@@ -2,7 +2,6 @@ package blackjack.view;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class OutputView {
 
@@ -19,12 +18,12 @@ public class OutputView {
         return instance;
     }
 
-    public void printCardDistribution(List<String> players){
+    public void printDistributionMessage(List<String> players){
         String names = String.join(",", players);
         System.out.println("딜러와 " + names + "에게 2장을 나누었습니다.");
     }
 
-    public void printPlayerOwnedCards(Map<String, List<String>> playerOwnedCards){
+    public void printNameCardsBundle(Map<String, List<String>> playerOwnedCards){
         for(Map.Entry<String, List<String>> entry:playerOwnedCards.entrySet()){
             String name = entry.getKey();
             String cards = String.join(",", entry.getValue());

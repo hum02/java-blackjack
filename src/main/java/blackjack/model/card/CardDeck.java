@@ -1,12 +1,12 @@
-package blackjack.model;
+package blackjack.model.card;
 
 import java.util.*;
 
-public class Cards {
+public class CardDeck {
 
     private final Stack<Card> cardDeck;
 
-    public Cards() {
+    public CardDeck() {
         cardDeck = new Stack<>();
         List<Card> cards = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class Cards {
         cards.forEach(cardDeck::push);
     }
 
-    public Cards(List<Card> cards) {
+    public CardDeck(List<Card> cards) {
         cardDeck = new Stack<>();
         cards.forEach(cardDeck::push);
     }

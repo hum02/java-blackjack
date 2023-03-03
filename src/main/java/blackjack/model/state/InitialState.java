@@ -1,9 +1,8 @@
 package blackjack.model.state;
 
-import blackjack.model.Card;
-import blackjack.model.CardScore;
-import blackjack.model.Cards;
-import blackjack.model.OwnedCards;
+import blackjack.model.card.Card;
+import blackjack.model.card.CardDeck;
+import blackjack.model.card.OwnedCards;
 
 public class InitialState extends State {
 
@@ -14,7 +13,7 @@ public class InitialState extends State {
     }
 
     @Override
-    public State draw(Cards cardDeck) {
+    public State draw(CardDeck cardDeck) {
         for (int i = 0; i < PICK_COUNT; i++) {
             Card picked = cardDeck.pick();
             ownedCards.add(picked);
@@ -26,7 +25,7 @@ public class InitialState extends State {
     }
 
     @Override
-    public CardScore getScore() {
-        return super.getScore();
+    public boolean isFinished() {
+        return false;
     }
 }

@@ -1,5 +1,7 @@
 package blackjack.model;
 
+import blackjack.model.card.CardNumber;
+
 import java.util.List;
 
 public class CardScore {

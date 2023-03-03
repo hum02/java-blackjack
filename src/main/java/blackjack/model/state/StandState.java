@@ -1,8 +1,7 @@
 package blackjack.model.state;
 
-import blackjack.model.CardScore;
-import blackjack.model.Cards;
-import blackjack.model.OwnedCards;
+import blackjack.model.card.CardDeck;
+import blackjack.model.card.OwnedCards;
 
 public class StandState extends State{
     public StandState(OwnedCards ownedCards) {
@@ -10,12 +9,12 @@ public class StandState extends State{
     }
 
     @Override
-    public State draw(Cards cardDeck) {
+    public State draw(CardDeck cardDeck) {
         return this;
     }
 
     @Override
-    public CardScore getScore() {
-        return super.getScore();
+    public boolean isFinished() {
+        return true;
     }
 }
