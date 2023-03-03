@@ -1,8 +1,11 @@
 package blackjack.model.participant;
 
+import blackjack.model.CardScore;
 import blackjack.model.card.Card;
 import blackjack.model.card.CardDeck;
 import blackjack.model.Name;
+import blackjack.model.state.BlackjackState;
+import blackjack.model.state.BustState;
 import blackjack.model.state.State;
 
 import java.util.List;
@@ -15,15 +18,9 @@ public abstract class Participant {
 
     abstract public void changeToStand();
 
-    public boolean isFinished() {
-        return currentState.isFinished();
-    }
+    abstract public CardScore cardScore();
 
-    public String getName() {
-        return name.getName();
-    }
+    abstract public String getName();
 
-    public List<Card> getCards() {
-        return currentState.getOwnedCards();
-    }
+    abstract public List<Card> getCards();
 }

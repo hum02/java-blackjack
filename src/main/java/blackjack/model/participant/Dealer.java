@@ -1,11 +1,13 @@
 package blackjack.model.participant;
 
+import blackjack.model.CardScore;
+import blackjack.model.card.Card;
 import blackjack.model.card.CardDeck;
 import blackjack.model.Name;
 import blackjack.model.card.OwnedCards;
-import blackjack.model.state.DrawState;
-import blackjack.model.state.InitialState;
-import blackjack.model.state.State;
+import blackjack.model.state.*;
+
+import java.util.List;
 
 public class Dealer extends Participant {
     private final Name name;
@@ -21,10 +23,9 @@ public class Dealer extends Participant {
         this.currentState = state;
     }
 
-
     @Override
     public void play(CardDeck cardDeck) {
-        currentState.draw(cardDeck);
+        this.currentState = currentState.draw(cardDeck);
         if(currentState instanceof DrawState){
             this.currentState = ((DrawState)currentState).turnDealerDrawState();
         }
@@ -35,5 +36,32 @@ public class Dealer extends Participant {
         if(currentState instanceof DrawState){
             this.currentState = ((DrawState)currentState).turnStandState();
         }
+    }
+
+    public boolean isFinished() {
+        return this.currentState.isFinished();
+    }
+
+    public boolean isBlackjack() {
+        return this.currentState instanceof BlackjackState;
+    }
+
+    public boolean isBust() {
+        return this.currentState instanceof BustState;
+    }
+
+    @Override
+    public CardScore cardScore() {
+        return currentState.getScore();
+    }
+
+    @Override
+    public String getName() {
+        return this.name.getName();
+    }
+
+    @Override
+    public List<Card> getCards() {
+        return this.currentState.getOwnedCards();
     }
 }

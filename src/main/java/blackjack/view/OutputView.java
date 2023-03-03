@@ -31,4 +31,12 @@ public class OutputView {
         }
     }
 
+    public void printResultBundle(Map<String, List<String>> playerOwnedCards, String result) {
+        for(Map.Entry<String, List<String>> entry:playerOwnedCards.entrySet()){
+            String name = entry.getKey();
+            String cards = String.join(",", entry.getValue());
+            System.out.println(name + ": " + cards + " - 결과: " + result);
+        }
+    }
+
 }

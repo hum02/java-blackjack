@@ -25,7 +25,9 @@ public class Application {
 
         //카드 나누기
         playCardDistribution(players, dealer, cardDeck);
-        List<String> names = players.stream().map(Player::getName).collect(Collectors.toList());
+        List<String> names = players.stream()
+                .map(Player::getName)
+                .collect(Collectors.toList());
         outputView.printDistributionMessage(names);
 
         //딜러카드, 플레이어 카드 출력
@@ -36,17 +38,43 @@ public class Application {
         DealerCardsBundle.put(dealerName, List.of(dealerCards));
 
         outputView.printNameCardsBundle(DealerCardsBundle);
-        outputView.printNameCardsBundle(playerCardsBundle(players));
+        outputView.printNameCardsBundle(participantCardsBundles(players));
 
         //HitOrStand
-        for (Player player : players) {
-            playHitOrStand(inputView, outputView, cardDeck, player);
+        for (Participant player : players) {
+            playHitOrStand(inputView, outputView, cardDeck, (Player) player);
         }
 
         //딜러 HitOrStand
-        dealerHitOrStand(inputView, outputView, cardDeck, dealer);
+        dealerHitOrStand(cardDeck, dealer);
+
+        //딜러 결과 출력
+        CardScore dealerScore = dealer.cardScore();
+        String dealerResult = Integer.toString(dealerScore.bigScore());
+
+        if (dealer.isBlackjack()) {
+            dealerResult += "블랙잭!!";
+        }
+        if (dealer.isBust()) {
+            dealerResult += "버스트";
+        }
+        outputView.printResultBundle(nameCardsBundle(dealer), dealerResult);
 
         // 보유 카드. 숫자합 결과 출력
+        for (Player player : players) {
+            CardScore cardScore = player.cardScore();
+            //블랙잭/버스트/숫자
+            String result = Integer.toString(cardScore.bigScore());
+
+            if (player.isBlackjack()) {
+                result += "블랙잭!!";
+            }
+            if (player.isBust()) {
+                result = Integer.toString(cardScore.smallScore());
+                result += "버스트 ㅠㅠ";
+            }
+            outputView.printResultBundle(participantCardsBundles(List.of(player)), result);
+        }
 
         // 최종승패 출력
     }
@@ -67,11 +95,11 @@ public class Application {
             if (!isHit) {
                 player.changeToStand();
             }
-            outputView.printNameCardsBundle(playerCardsBundle(List.of(player)));
+            outputView.printNameCardsBundle(participantCardsBundles(List.of(player)));
         }
     }
 
-    private static void dealerHitOrStand(InputView inputView, OutputView outputView, CardDeck cardDeck, Dealer dealer) {
+    private static void dealerHitOrStand(CardDeck cardDeck, Dealer dealer) {
         while (!dealer.isFinished()) {
             dealer.play(cardDeck);
             System.out.println("딜러가 1장을 더 받았습니다");
@@ -86,17 +114,24 @@ public class Application {
                 .collect(Collectors.toList());
     }
 
-    public static Map<String, List<String>> playerCardsBundle(List<Player> participants) {
+    public static Map<String, List<String>> participantCardsBundles(List<Player> players) {
         HashMap<String, List<String>> playerCards = new HashMap<>();
-        for (Participant participant : participants) {
-            String name = participant.getName();
-            List<String> ownedCards = participantsCards(participant);
-            playerCards.put(name, ownedCards);
+        for (Player player : players) {
+            Map<String, List<String>> nameCardsBundle = nameCardsBundle(player);
+            playerCards.putAll(nameCardsBundle);
         }
         return playerCards;
     }
 
-    private static List<String> participantsCards(Participant participant) {
+    private static Map<String, List<String>> nameCardsBundle(Participant participant) {
+        HashMap<String, List<String>> nameCardsBundle = new HashMap<>();
+        String name = participant.getName();
+        List<String> ownedCards = participantsCardUnits(participant);
+        nameCardsBundle.put(name, ownedCards);
+        return nameCardsBundle;
+    }
+
+    private static List<String> participantsCardUnits(Participant participant) {
         List<String> ownedCards = participant.getCards()
                 .stream()
                 .map(card -> cardUnit(card.getCardNumber(), card.getSuit()))
